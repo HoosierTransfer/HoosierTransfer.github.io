@@ -50,5 +50,29 @@ const fragmentShaderSource = `
     // If we reach this point, then the point is part of the Mandelbrot set
     // and we color it black
     gl_FragColor = vec4(0, 0, 0, 1);
-    }
-    `;
+}
+`;
+
+// Create a vertex shader by compiling the vertex shader source code
+const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+gl.shaderSource(vertexShader, vertexShaderSource);
+gl.compileShader(vertexShader);
+
+// Create a fragment shader by compiling the fragment shader source code
+const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+gl.shaderSource(fragmentShader, fragmentShaderSource);
+gl.compileShader(fragmentShader);
+
+// Create a WebGL program by attaching the vertex and fragment shaders
+// to a WebGL program object and then linking the program
+const program = gl.createProgram();
+gl.attachShader(program, vertexShader);
+gl.attachShader(program, fragmentShader);
+gl.linkProgram(program);
+gl.useProgram(program);
+
+// Clear the canvas
+gl.clear(gl.COLOR_BUFFER_BIT);
+
+// Draw a single point
+gl.drawArrays(gl.POINTS, 0, 1);
